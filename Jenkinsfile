@@ -1,21 +1,19 @@
 pipeline {
     agent any
+    tools {
+        maven 'MVN-str'
+        docker 'DOCKER-str'
+    }
     stages{
-        stage('Init'){
-            steps {
-                echo "Testing..."
-            }
-        }
-
         stage('Build'){
             steps {
-                echo 'Building...'
+                sh 'mvn clean package'
             }
         }
-
-        stage ('Deploy'){
-            steps {
-                echo 'Code deployed.'
+        post {
+            success {
+                echo 'Now Archiving...'
+                archiveArtifacts artifacts: '**/target/*.war'
             }
         }
     }
