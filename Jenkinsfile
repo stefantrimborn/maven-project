@@ -7,7 +7,7 @@ pipeline {
             }
         }
 
-        stage('Nuild'){
+        stage('Build'){
             steps {
                 echo 'Building...'
             }
