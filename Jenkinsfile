@@ -1,8 +1,7 @@
 pipeline {
     agent any
     tools {
-        maven 'MVN-str'
-        docker 'DOCKER-str'
+        maven 'MVN-str'       
     }
     stages{
         stage('Build'){
