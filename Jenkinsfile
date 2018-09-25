@@ -24,7 +24,7 @@ pipeline {
         stage ('Deploy to Staging')  {
             steps {
                 echo 'Grabbing Artifacts'
-                copyArtifacts filter: '**/*.war', fingerprintArtifacts: true, projectName: 'package', selector: workspace()
+                copyArtifacts filter: '**/*.war', fingerprintArtifacts: true, projectName: 'package', selector: lastSuccessful()
             }
         }
 
