@@ -18,17 +18,27 @@ pipeline {
             }
         }
 
+        stage ('Deploy to Rep'){
+            steps {
+                sh "docker login -u devjenkins -p jenkins ee-dtr.sttproductions.de"
+                sh "docker tag tomcat-webapp:${env.BUILD_ID} ee-dtr.sttproductions.de/devjenkins/webapp:${env.BUILD_ID}"
+                sh "docker push ee-dtr.sttproductions.de/devjenkins/webapp:${env.BUILD_ID}"
+            }
+        }
+
         stage ('Deployments'){
             parallel{
                 stage ('Deploy to Staging'){
                     steps {
-                        sh "docker service create --name tomcat-dev --publish 8888:8080 --hostname ee-prod08 tomcat-webapp:${env.BUILD_ID}"
+                        sh "docker login -u devjenkins -p jenkins ee-dtr.sttproductions.de"
+                        sh "docker service create --name tomcat-dev --publish 8888:8080 --hostname ee-prod08 ee-dtr.sttproductions.de/devjenkins/webapp:${env.BUILD_ID}"
                     }
                 }
 
                 stage ("Deploy to Production"){
                     steps {
-                        sh "docker service create --name tomcat-prod --publish 8889:8080 --hostname ee-prod08 tomcat-webapp:${env.BUILD_ID}"
+                        sh "docker login -u devjenkins -p jenkins ee-dtr.sttproductions.de"
+                        sh "docker service create --name tomcat-prod --publish 8889:8080 --hostname ee-prod08 ee-dtr.sttproductions.de/devjenkins/webapp:${env.BUILD_ID}"
                     }
                 }
             }
