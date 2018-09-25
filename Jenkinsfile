@@ -2,51 +2,36 @@ pipeline {
     agent any
     
     tools {
-        maven 'MVN-str'       
-    }
+            maven 'MVN-str'
+        }
     
-    stages{
-        
-        
+ stages{
         stage('Build'){
             steps {
                 sh 'mvn clean package'
+                sh "docker build . -t tomcat-webapp:${env.BUILD_ID}"
             }
             post {
                 success {
-                    echo 'Now Archiving...'
-                    archiveArtifacts artifacts: '**/*.war'
+                    echo 'All build...'
                 }
-            }
-        } 
-        
-        
-        stage ('Deploy to Staging')  {
-            steps {
-                echo 'Grabbing Artifacts'
-                copyArtifacts filter: '**/*.war', fingerprintArtifacts: true, projectName: 'package', selector: lastSuccessful()
             }
         }
 
-        
-        stage ('Deploy to Production'){
-            steps{
-                timeout(time:5, unit:'DAYS'){
-                    input message:'Approve PRODUCTION Deployment?'                
+        stage ('Deployments'){
+            parallel{
+                stage ('Deploy to Staging'){
+                    steps {
+                        sh "docker run -it --rm -d -p 8888:8080 -n tomcat-qe-testing tomcat-webapp:${env.BUILD_ID}"
+                    }
                 }
 
-                build job: 'deploy-to-prod'
-            }
-            post {
-                success {
-                    echo 'Code deployed to Production.'
-                }
-
-                failure {
-                    echo 'Deployment failed.'
+                stage ("Deploy to Production"){
+                    steps {
+                        sh "docker run -it --rm -d -p 8889:8080 -n tomcat-prod tomcat-webapp:${env.BUILD_ID}"
+                    }
                 }
             }
-        }  
-    
+        }
     }
 }
