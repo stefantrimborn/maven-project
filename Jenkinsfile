@@ -28,7 +28,7 @@ pipeline {
 
                 stage ("Deploy to Production"){
                     steps {
-                        sh "docker run -it --rm -d -p 8889:8080 ---name tomcat-prod tomcat-webapp:${env.BUILD_ID}"
+                        sh "docker run -it --rm -d -p 8889:8080 --name tomcat-prod tomcat-webapp:${env.BUILD_ID}"
                     }
                 }
             }
