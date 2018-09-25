@@ -24,7 +24,7 @@ pipeline {
         stage ('Deploy to Staging')  {
             steps {
                 echo 'Grabbing Artifacts'
-                copyArtifacts(projectName: 'package',  selector: 'lastCompleted', filter: "**/*.war")
+                copyArtifacts(projectName: 'package',  selector: lastCompleted, filter: "**/*.war")
             }
         }
 
