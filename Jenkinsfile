@@ -31,14 +31,18 @@ pipeline {
                 stage ('Deploy to Staging'){
                     steps {
                         sh "docker login -u devjenkins -p jenkins ee-dtr.sttproductions.de"
-                        sh "docker service create --name tomcat-dev --publish 8888:8080 --hostname ee-prod08 ee-dtr.sttproductions.de/devjenkins/webapp:${env.BUILD_ID}"
+                        /*sh "docker service create --name tomcat-dev --publish 8888:8080 --hostname ee-prod08 ee-dtr.sttproductions.de/devjenkins/webapp:${env.BUILD_ID}"
+                        */
+                        sh "docker service update --image ee-dtr.sttproductions.de/devjenkins/webapp:${env.BUILD_ID} tomcat-dev"
                     }
                 }
 
                 stage ("Deploy to Production"){
                     steps {
                         sh "docker login -u devjenkins -p jenkins ee-dtr.sttproductions.de"
-                        sh "docker service create --name tomcat-prod --publish 8889:8080 --hostname ee-prod08 ee-dtr.sttproductions.de/devjenkins/webapp:${env.BUILD_ID}"
+                        /*sh "docker service create --name tomcat-prod --publish 8889:8080 --hostname ee-prod08 ee-dtr.sttproductions.de/devjenkins/webapp:${env.BUILD_ID}"
+                        */
+                       sh "docker service update --image ee-dtr.sttproductions.de/devjenkins/webapp:${env.BUILD_ID} tomcat-prod" 
                     }
                 }
             }
