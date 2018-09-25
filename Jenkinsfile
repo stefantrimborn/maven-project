@@ -15,7 +15,7 @@ pipeline {
             post {
                 success {
                     echo 'Now Archiving...'
-                    archiveArtifacts artifacts: '**/*.war'
+                    archiveArtifacts artifacts: '**/target/*.war'
                 }
             }
         } 
@@ -23,7 +23,8 @@ pipeline {
         
         stage ('Deploy to Staging')  {
             steps {
-                build job: 'deploy-to-staging'
+                echo 'Grabbing Artifacts'
+                copyArtifacts(projectName: 'package',  filter: "**/*.war")
             }
         }
 
