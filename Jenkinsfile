@@ -4,7 +4,12 @@ pipeline {
     tools {
             maven 'MVN-str'
         }
-    
+    environment {
+                DOCKERUSER = credentials('8476e0da-456f-4ad9-8235-2b21c99f8d96')
+                DOCKERPASSWORD = credentials('270fb3f6-befc-46bd-9367-b49ab1897ea2')
+                DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE = credentials('cb369481-3cd6-465e-a83b-adf421720f97') 
+        }
+
  stages{
         stage('Build'){
             steps {
@@ -20,10 +25,7 @@ pipeline {
 
         stage ('Deploy to Rep'){
             environment {
-                DOCKER_CONTENT_TRUST = '1'
-                DOCKERUSER = credentials('8476e0da-456f-4ad9-8235-2b21c99f8d96')
-                DOCKERPASSWORD = credentials('270fb3f6-befc-46bd-9367-b49ab1897ea2')
-                DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE = credentials('cb369481-3cd6-465e-a83b-adf421720f97')                
+                DOCKER_CONTENT_TRUST = '1'               
             }
 
             steps {
