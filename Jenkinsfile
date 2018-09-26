@@ -27,7 +27,7 @@ pipeline {
             }
 
             steps {
-                sh printenv               
+                sh "printenv"               
                 sh "docker login -u ${DOCKERUSER} -p ${DOCKERPASSWORD} ee-dtr.sttproductions.de"
                 sh "docker tag tomcat-webapp:${env.BUILD_ID} ee-dtr.sttproductions.de/sttproductions/webapp:${env.BUILD_ID}"
                 sh "docker push ee-dtr.sttproductions.de/sttproductions/webapp:${env.BUILD_ID}"
