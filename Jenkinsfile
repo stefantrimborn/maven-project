@@ -21,10 +21,9 @@ pipeline {
         stage ('Deploy to Rep'){
             environment {
                 DOCKER_CONTENT_TRUST = '1'
-                NOTARY_ROOT_PASSPHRASE = "Kuhzweiger1983"
-	            NOTARY_TARGETS_PASSPHRASE ="Kuhzweiger1983"
-	            NOTARY_SNAPSHOT_PASSPHRASE ="Kuhzweiger1983"
-                NOTARY_DELEGATION_PASSPHRASE ="Kuhzweiger1983"
+                
+                DOCKER_CONTENT_TRUST_ROOT_PASSPHRAS = "Docker1234"
+                DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE = "Docker1234"
             }
 
             steps {
