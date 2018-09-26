@@ -20,9 +20,9 @@ pipeline {
 
         stage ('Deploy to Rep'){
             steps {
-                sh 'eval "$(</ucp/env.sh)"'
                 sh "docker login -u devjenkins -p jenkins ee-dtr.sttproductions.de"
                 sh "docker tag tomcat-webapp:${env.BUILD_ID} ee-dtr.sttproductions.de/sttproductions/webapp:${env.BUILD_ID}"
+                sh "export DOCKER_CONTENT_TRUST=1"
                 sh "docker push ee-dtr.sttproductions.de/sttproductions/webapp:${env.BUILD_ID}"
             }
         }
