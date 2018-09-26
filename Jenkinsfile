@@ -22,7 +22,7 @@ pipeline {
             environment {
                 DOCKER_CONTENT_TRUST = '1'
                 
-                DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE = "Kuhzweiger1983"
+                DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE = credentials('REP-PW')
             }
 
             steps {               
