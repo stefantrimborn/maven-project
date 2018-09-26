@@ -25,8 +25,7 @@ pipeline {
                 DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE = "Kuhzweiger1983"
             }
 
-            steps {
-                sh 'printenv'
+            steps {               
                 sh "docker login -u devjenkins -p jenkins ee-dtr.sttproductions.de"
                 sh "docker tag tomcat-webapp:${env.BUILD_ID} ee-dtr.sttproductions.de/sttproductions/webapp:${env.BUILD_ID}"
                 sh "docker push ee-dtr.sttproductions.de/sttproductions/webapp:${env.BUILD_ID}"
