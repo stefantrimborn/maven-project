@@ -19,10 +19,14 @@ pipeline {
         }
 
         stage ('Deploy to Rep'){
+            environment {
+                DOCKER_CONTENT_TRUST = 1
+            }
+
             steps {
+                sh export
                 sh "docker login -u devjenkins -p jenkins ee-dtr.sttproductions.de"
                 sh "docker tag tomcat-webapp:${env.BUILD_ID} ee-dtr.sttproductions.de/sttproductions/webapp:${env.BUILD_ID}"
-                DOCKER_CONTENT_TRUST = 1
                 sh "docker push ee-dtr.sttproductions.de/sttproductions/webapp:${env.BUILD_ID}"
             }
         }
