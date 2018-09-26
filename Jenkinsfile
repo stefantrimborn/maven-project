@@ -22,8 +22,7 @@ pipeline {
             environment {
                 DOCKER_CONTENT_TRUST = '1'
                 
-                DOCKER_CONTENT_TRUST_ROOT_PASSPHRAS = "Docker1234"
-                DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE = "Docker1234"
+                DOCKER_CONTENT_TRUST_REPOSITORY_PASSPHRASE = "Kuhzweiger1983"
             }
 
             steps {
