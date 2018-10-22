@@ -38,9 +38,9 @@ pipeline {
         }
 
         stage ('Deployments'){
-            agent { label "mslave" }
             parallel{
                 stage ('Deploy to Staging'){
+                    agent { label "mslave" }
                     steps {
                         sh "docker login -u ${DOCKERUSER} -p ${DOCKERPASSWORD} ee-dtr.sttproductions.de"
                         /*sh "docker service create --name tomcat-dev --publish 8888:8080 --hostname ee-prod08 ee-dtr.sttproductions.de/devjenkins/webapp:${env.BUILD_ID}"
@@ -50,6 +50,7 @@ pipeline {
                 }
 
                 stage ("Deploy to Production"){
+                    agent { label "mslave" }
                     steps {
                         sh "docker login -u ${DOCKERUSER} -p ${DOCKERPASSWORD} ee-dtr.sttproductions.de"
                         /*sh "docker service create --name tomcat-prod --publish 8889:8080 --hostname ee-prod08 ee-dtr.sttproductions.de/devjenkins/webapp:${env.BUILD_ID}"
