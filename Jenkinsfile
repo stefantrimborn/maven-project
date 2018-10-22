@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
     
     tools {
             maven 'MVN-str'
@@ -12,6 +12,7 @@ pipeline {
 
  stages{
         stage('Build'){
+            agent { label "slave" }
             steps {
                 sh 'mvn clean package'
                 sh "docker build . -t tomcat-webapp:${env.BUILD_ID}"
@@ -24,12 +25,12 @@ pipeline {
         }
 
         stage ('Deploy to Rep'){
+            agent { label "slave" }
             environment {
                 DOCKER_CONTENT_TRUST = '1'               
             }
 
             steps {
-                sh "printenv"               
                 sh "docker login -u ${DOCKERUSER} -p ${DOCKERPASSWORD} ee-dtr.sttproductions.de"
                 sh "docker tag tomcat-webapp:${env.BUILD_ID} ee-dtr.sttproductions.de/sttproductions/webapp:${env.BUILD_ID}"
                 sh "docker push ee-dtr.sttproductions.de/sttproductions/webapp:${env.BUILD_ID}"
@@ -37,6 +38,7 @@ pipeline {
         }
 
         stage ('Deployments'){
+            agent { label "mslave" }
             parallel{
                 stage ('Deploy to Staging'){
                     steps {
