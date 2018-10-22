@@ -27,7 +27,7 @@ pipeline {
         stage ('Deploy to Rep'){
             agent { label "slave" }
             environment {
-                DOCKER_CONTENT_TRUST = '11'               
+                DOCKER_CONTENT_TRUST = '1'               
             }
 
             steps {
