@@ -43,7 +43,7 @@ pipeline {
                     agent { label "mslave" }
                     steps {
                         sh "docker login -u ${DOCKERUSER} -p ${DOCKERPASSWORD} ee-dtr.sttproductions.de"
-                        /*sh "docker service create --name tomcat-dev --publish 8888:8080 --hostname ee-prod08 ee-dtr.sttproductions.de/devjenkins/webapp:${env.BUILD_ID}"
+                        /*sh  "docker service create --name tomcat-dev --publish 8888:8080 --hostname ee-prod08 ee-dtr.sttproductions.de/devjenkins/webapp:${env.BUILD_ID}"
                         */
                         sh "docker service update --image ee-dtr.sttproductions.de/sttproductions/webapp:${env.BUILD_ID} tomcat-dev"
                     }
